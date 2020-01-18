@@ -16,12 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from django.shortcuts import render
+from findwords import FindRelatedWords
+
 
 def index(request):
 
     return render(request, 'index.html')
 
-def dashboard(request):
+def dashboard(request, search_term = None):
+
+    if search_term != None:
+        test = FindRelatedWords(search_term).words[0:10]
+        print(test)
 
     return render(dashboard, 'dashboard.html')
 

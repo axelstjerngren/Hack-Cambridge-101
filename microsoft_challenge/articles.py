@@ -85,7 +85,6 @@ class ArticleAnalysis:
 if __name__ == '__main__':
     analysis = ArticleAnalysis()
     article = analysis.parseArticle("https://www.bbc.co.uk/news/uk-politics-51161808")
-
     analysis.sentiment_score(article)
     analysis.entity_recognition(article)
     analysis.key_phrases(article)
