@@ -3,6 +3,7 @@ from nltk import tokenize
 import os
 from azure.cognitiveservices.language.textanalytics import TextAnalyticsClient
 from msrest.authentication import CognitiveServicesCredentials
+import random
 
 class ArticleAnalysis:
     
@@ -16,19 +17,29 @@ class ArticleAnalysis:
             endpoint="https://westcentralus.api.cognitive.microsoft.com/", credentials=credentials)
         return text_analytics_client
 
-    def build_document(self, sentences):
-        sentences = tokenize.sent_tokenize(article) # Split into sentences
+    def build_document(self, article):
+        n = 4999
+        sentences = [article[i:i+n] for i in range(0, len(article), n)]
+
         documents = []
         for i, sent in enumerate(sentences):
             documents.append({"id":str(i), "language": "en", "text": sent})
+        
+        if i > 99:
+            documents = random.sample(documents, 100)
         return documents
 
     def parseArticle(self, url):
         # Take a URL, spit out text
-        article = Article(url)
-        article.download()
-        article.parse()
-        return article.text
+        try:
+            article = Article(url)
+            article.download()
+            article.parse()
+            return article.text
+
+        except:
+            # Some articles are behind a paywall
+            return ''
 
     def sentiment_score(self, article):
         # Calculate the sentiment score of an article
@@ -73,20 +84,21 @@ class ArticleAnalysis:
         for sent in sentences:
             document += ' ' + sent
         
+        phrases = []
+
         response = self.client.key_phrases(documents= self.build_document(article))
         for document in response.documents:
-            print("Document Id: ", document.id)
-            print("\tKey Phrases:")
             for phrase in document.key_phrases:
-                print("\t\t", phrase)
+                phrases.append(phrase)
+        return phrases
 
 
 
 if __name__ == '__main__':
     analysis = ArticleAnalysis()
     article = analysis.parseArticle("https://www.bbc.co.uk/news/uk-politics-51161808")
-    analysis.sentiment_score(article)
-    analysis.entity_recognition(article)
-    analysis.key_phrases(article)
+    #analysis.sentiment_score(article)
+    #analysis.entity_recognition(article)
+    print(analysis.key_phrases(article))
 
 

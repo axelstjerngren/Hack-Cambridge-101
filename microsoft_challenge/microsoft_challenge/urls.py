@@ -17,6 +17,14 @@ from django.contrib import admin
 from django.urls import path, re_path
 from django.shortcuts import render
 from findwords import FindRelatedWords
+from findarticles import FindArticles
+from articles import ArticleAnalysis
+
+import random
+import re
+
+from collections import Counter
+from nltk.corpus import stopwords
 
 
 def index(request):
@@ -26,13 +34,32 @@ def index(request):
 def dashboard(request, search_term = None):
 
     if search_term != None:
-        test = FindRelatedWords(search_term).words[0:10]
-        print(test)
+        words = FindRelatedWords(search_term).words[0:10]
+        urls = FindArticles(words).urls
+        urls = random.sample(urls, len(urls)//2)
+
+        analysis = ArticleAnalysis()
+        text = ''
+        for url in urls:
+            text += analysis.parseArticle(url)
+            
+
+        stoplist = stopwords.words('english')
+        stoplist.extend(["said", "The"]) # stoplist already includes "i", "it", "you"
+        clean = [word for word in re.split(r"\W+", text.lower()) if word not in stoplist]
+        top_10 = Counter(clean).most_common(15)
+        print(top_10)
+
+        print('Done')
+        #analysis.sentiment_score(article)
+        #analysis.entity_recognition(article)
+        key_words = analysis.key_phrases(text)
+        print(Counter(key_words).most_common(15))
 
     return render(request, 'dashboard.html')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dashboard/', dashboard),
+    path('dashboard/<str:search_term>', dashboard),
     re_path(r'^$', index, name='index'),
 ]

@@ -10,7 +10,7 @@ class FindRelatedWords:
         
         self.words = []
         for link in links:
-            self.words.append(link)
+            self.words.append(link.text)
         
 
 
