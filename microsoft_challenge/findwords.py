@@ -5,10 +5,15 @@ class FindRelatedWords:
     def __init__(self, search_term):
         driver = webdriver.PhantomJS()
         url = "https://relatedwords.org/relatedto/" + search_term.replace(' ', '%20')
-        driver = driver.get(url)
-        print(driver)
+        driver.get(url)
+        links = driver.find_element_by_class_name("words").find_elements_by_tag_name("a")
+        
+        self.words = []
+        for link in links:
+            self.words.append(link)
         
 
 
+
 if __name__ == '__main__':
-    FindRelatedWords('test')
+    FindRelatedWords('climate change')
