@@ -23,10 +23,10 @@ def index(request):
 
 def dashboard(request):
 
-    return render(dashboard, 'dashboard.html')
+    return render(request, 'dashboard.html')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('dashboard/', dashboard),
     re_path(r'^$', index, name='index'),
 ]
-
