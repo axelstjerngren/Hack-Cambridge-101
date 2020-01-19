@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,7 +12,8 @@
 <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+      <script src="{% static 'wordcloud/d3.layout.cloud.js' %}"></script>
     <!-- Custom styles for this template -->
     <style>
     body {
@@ -65,9 +67,12 @@
 
 .sophiaGraphBorders{
   border:solid #0A53A0 medium; padding:1rem; border-radius:1rem; border-top-left-radius:0rem;border-top-right-radius:0rem; margin:0.5em;
+overflow-y: scroll;
 }
 .sophiaGraphTitle{
   background-color:#0A53A0;color:white;padding:0.25rem;margin:-1rem;margin-bottom:1rem;text-transform:uppercase;
+position: sticky; top:-1.5em;
+
 }
 .sophiaNavLink{
   padding:0.5em;
@@ -84,7 +89,7 @@
     <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0" style="background-color:#0A53A0;text-transform: uppercase;margin:0">
       <div class="col-3"><a class="sophiaNavLink" style="color:white;font-size:1.5em;padding:0em" href="#">Scientific Discourse</a></div>
     <div class="col"> <a class="sophiaNavLink" style="color:white" href="#">Dashboard</a></div>
-      <div class="col"><a class="sophiaNavLink" style="color:white" href="#">Papers</a></div>
+      <div class="col"><a class="sophiaNavLink" style="color:white" href="#">My Papers</a></div>
       <div class="col"><a class="sophiaNavLink" style="color:white" href="#">Buzzwords</a></div>
       <div class="col"><a class="sophiaNavLink" style="color:white" href="#">Posts</a></div>
       <ul class="navbar-nav px-3">
@@ -116,7 +121,7 @@
     <div class="sophiaGraphTitle"><center>Key Words Over Time</center></div>
           <canvas class="my-4" id="keyWordsOverTime" width="800" height="300"></canvas>
         </div>
-          <div class="col sophiaGraphBorders">
+          <div class="col sophiaGraphBorders"style="max-height:23em">
 <div class="sophiaGraphTitle"><center>How People Feel</center></div>
             <div class="table-responsive">
               <table class="table table-striped table-sm">
@@ -148,13 +153,34 @@
                     <td>3</td>
                     <td>1</td>
                   </tr>
+                  <tr>
+                    <td>Paper D</td>
+                    <td>3</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Paper D</td>
+                    <td>3</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Paper D</td>
+                    <td>3</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                      <td>Paper D</td>
+                      <td>3</td>
+                      <td>1</td>
+                    </tr>
                 </tbody>
               </table>
             </div>
           </div>
 </div>
 <div class="row">
-  <div class="col-5 sophiaGraphBorders">
+  <div class="col-5" style="margin:0;padding:0;">
+  <div class="row sophiaGraphBorders" style="max-height:20em">
 <div class="sophiaGraphTitle"><center>Headline Extracts</center></div>
 <div class="table-responsive">
   <table class="table table-striped table-sm">
@@ -186,17 +212,108 @@
         <td>"Paper D Exists!"</td>
         <td>NY Times</td>
       </tr>
+      <tr>
+        <td>Paper D</td>
+        <td>"Paper D Exists!"</td>
+        <td>NY Times</td>
+      </tr>
+      <tr>
+        <td>Paper D</td>
+        <td>"Paper D Exists!"</td>
+        <td>NY Times</td>
+      </tr>
+      <tr>
+        <td>Paper D</td>
+        <td>"Paper D Exists!"</td>
+        <td>NY Times</td>
+      </tr>
+      <tr>
+        <td>Paper D</td>
+        <td>"Paper D Exists!"</td>
+        <td>NY Times</td>
+      </tr>
     </tbody>
   </table>
 </div>
 </div>
+<div class="row sophiaGraphBorders" style="max-height:15em">
+<div class="sophiaGraphTitle"><center>Top People Mentioned</center></div>
+<div class="table-responsive">
+  <table class="table table-striped table-sm">
+    <thead style="text-transform:uppercase;">
+      <tr>
+        <th>Person</th>
+        <th>Paper</th>
+        <th>Source</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Person 1</td>
+        <td>Paper A</td>
+        <td>BBC</td>
+      </tr>
+      <tr>
+        <td>Person 2</td>
+        <td>Paper B</td>
+        <td>CNN</td>
+      </tr>
+      <tr>
+        <td>Person 3</td>
+        <td>Paper C</td>
+        <td>Underwater Basketweaving Today</td>
+      </tr>
+      <tr>
+        <td>Person 4</td>
+        <td>Paper D</td>
+        <td>NY Times</td>
+      </tr>
+      <tr>
+        <td>Person 4</td>
+        <td>Paper D</td>
+        <td>NY Times</td>
+      </tr>
+      <tr>
+        <td>Person 4</td>
+        <td>Paper D</td>
+        <td>NY Times</td>
+      </tr>
+      <tr>
+        <td>Person 4</td>
+        <td>Paper D</td>
+        <td>NY Times</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+</div>
 <div class="col sophiaGraphBorders">
 <div class="sophiaGraphTitle"><center>Word Cloud</center></div>
+<div id = "word-cloud"></div>
+
+</div>
+</div>
+<div class="row">
+<div class="col sophiaGraphBorders">
+<div class="sophiaGraphTitle"><center>Locations</center></div>
+
+
+</div>
 </div>
         </main>
     </div>
-    </div>
 
+    </div>
+    <textarea width="100%" style="display:none">
+      Maui Mayor Michael Victorino proclaimed today, Jan. 17, 2020, “Kurt Suzuki Day” throughout the County of Maui.  The proclamation was issued during a morning press conference at the Kalana O Maui building in Wailuku.
+
+In making the proclamation, Mayor Victorino thanked Suzuki for “not only making the state proud on the biggest stage, but also giving back to our local Maui community.”
+
+Suzuki is a 2001 graduate of HP Baldwin High School on Maui.
+
+The proclamation notes that he was a walk-on at Cal State Fullerton, and captured the 2004 College World Series Championship after his game winning RBI single against the Texas Longhorns, earning him the nickname “Kurt the Clutch.” He also won the Johnny Bench Award as the country’s top collegiate catcher.
+</textarea>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -246,5 +363,101 @@
         }
       });
     </script>
+
+    <script>
+
+function wordCloud(selector) {
+
+var fill = d3.scale.category20();
+
+var svg = d3.select(selector)
+            .append("svg")
+            .attr("width", 600)
+            .attr("height", 400)
+            .append("g")
+            .attr("transform", "translate(300,200)");
+
+function draw(words) {
+  //Use the 'text' attribute (the word itself) to identity unique elements.
+  var cloud = svg.selectAll("g text")
+                  .data(words, function(d) { return d.text; })
+
+  //Entering words
+  cloud.enter()
+        .append("text")
+        .style("font-family", "Impact")
+        .style("fill", function(d, i) { return fill(i); })
+        .attr("text-anchor", "middle")
+        .attr('font-size', 1)
+        .text(function(d) { return d.text; });
+
+  //Entering and existing words
+  cloud.transition()
+        .duration(600)
+        .style("font-size", function(d) { return d.size + "px"; })
+        .attr("transform", function(d) {
+          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+        })
+        .style("fill-opacity", 1);
+
+  //Exiting words
+  cloud.exit()
+        .transition()
+        .duration(200)
+        .style('fill-opacity', 1e-6)
+        .attr('font-size', 1)
+        .remove();
+}
+
+return {
+    //Recompute the word cloud for a new set of words. This method will
+    // asycnhronously call draw when the layout has been computed.
+    update: function(words) {
+        d3.layout.cloud().size(["600", "400"])
+            .words(words)
+            .padding(5)
+            .rotate(function() { return ~~(Math.random() * 2) * 90; })
+            .font("Impact")
+            .fontSize(function(d) { return d.size; })
+            .on("end", draw)
+            .start();
+    }
+}
+
+}
+
+//http://en.wikiquote.org/wiki/Opening_lines
+
+//Remove punctation and repeated words. Compute a random
+// size attribute for each word.
+function getWords(words) {
+function unique(value, index, self) {
+    return value && self.indexOf(value) === index;
+}
+
+return words
+        .replace(/[!\.,:;\?\]\[\(\)]/g, ' ')
+        .split(' ')
+        .filter(unique)
+        .map(function(d) {
+          return {text: d, size: 10 + Math.random() * 40};
+        })
+}
+
+//Tell the word cloud to redraw with a new set of words.
+//In reality the new words will probably come from a server request,
+// user input or some other source.
+function showNewWords(vis, i) {
+i = i || 0;
+var words = document.getElementsByTagName("textarea")[0].value;
+console.log(words);
+vis.update(getWords(words))
+setTimeout(function() { showNewWords(vis, i + 1)}, 4000)
+}
+var wordBox = document.getElementById("word-cloud");
+var myWordCloud = wordCloud(wordBox);
+showNewWords(myWordCloud);
+
+</script>
   </body>
 </html>
