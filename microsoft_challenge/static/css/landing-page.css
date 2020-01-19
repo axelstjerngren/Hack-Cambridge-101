@@ -6,6 +6,10 @@
 
 body {
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: url("../img/The_School_of_Athens__by_Raffaello_Sanzio_da_Urbino.jpg") no-repeat center center;
+  background-size: fill;
+  
+
 }
 
 h1,
@@ -20,21 +24,16 @@ h6 {
 
 header.masthead {
   position: relative;
-  background-color: #343a40;
-  background: url("../img/The_School_of_Athens__by_Raffaello_Sanzio_da_Urbino.jpg") no-repeat center center;
-  background-size: fill;
   padding-top: 8rem;
   padding-bottom:8rem;
 }
 
 header.masthead .overlay {
   position: absolute;
-  background-color: #212529;
   height: 100%;
   width: 100%;
   top: 0;
   left: 0;
-  opacity: 0.3;
 }
 
 header.masthead h1 {

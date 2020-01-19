@@ -22,10 +22,12 @@ class ArticleAnalysis:
         sentences = [article[i:i+n] for i in range(0, len(article), n)]
 
         documents = []
+        count = 0
         for i, sent in enumerate(sentences):
             documents.append({"id":str(i), "language": "en", "text": sent})
+            count = i
         
-        if i > 99:
+        if count > 99:
             documents = random.sample(documents, 100)
         return documents
 
@@ -35,62 +37,70 @@ class ArticleAnalysis:
             article = Article(url)
             article.download()
             article.parse()
-            return article.text
+            return article.text, article.title
 
         except:
             # Some articles are behind a paywall
-            return ''
+            return '', ''
 
     def sentiment_score(self, article):
         # Calculate the sentiment score of an article
         
+        try:
+            response = self.client.sentiment(
+                documents = self.build_document(article)
+            )
+            counter = 0
+            total_score = 0
+            for document in response.documents:
+                counter += 1
 
-        response = self.client.sentiment(
-            documents = self.build_document(article)
-        )
-        counter = 0
-        total_score = 0
-        for document in response.documents:
-            counter += 1
-
-            total_score += document.score
-        return total_score/counter # Average sentiment score
+                total_score += document.score
+            return total_score/counter # Average sentiment score
+        except:
+            return 0.5
            
 
     def entity_recognition(self, article):
-        response = self.client.entities(
-            documents = self.build_document(article)
-        )
+        try:
+            response = self.client.entities(
+                documents = self.build_document(article)
+            )
 
-        entities = {}
+            entities = {}
 
-        for document in response.documents:
-            for entity in document.entities:
+            for document in response.documents:
+                for entity in document.entities:
 
-                entities[entity.name] = {
-                    "type" : entity.type, 
-                    "sub-type": entity.sub_type,
-                    "score" : 0
-                    }
+                    entities[entity.name] = {
+                        "type" : entity.type, 
+                        "sub-type": entity.sub_type,
+                        "score" : 0
+                        }
 
-                for match in entity.matches:
-                    entities[entity.name]['score'] = match.entity_type_score
-        
-        return entities
+                    for match in entity.matches:
+                        entities[entity.name]['score'] = match.entity_type_score
+            
+            return entities
+        except:
+            return {}
     
     def key_phrases(self, article):
-        sentences = tokenize.sent_tokenize(article) # Split into sentences
-        document = ''
-        for sent in sentences:
-            document += ' ' + sent
-        
-        phrases = []
+        try:
+            sentences = tokenize.sent_tokenize(article) # Split into sentences
+            document = ''
+            for sent in sentences:
+                document += ' ' + sent
+            
+            phrases = []
 
-        response = self.client.key_phrases(documents= self.build_document(article))
-        for document in response.documents:
-            for phrase in document.key_phrases:
-                phrases.append(phrase)
-        return phrases
+            response = self.client.key_phrases(documents= self.build_document(article))
+            for document in response.documents:
+                for phrase in document.key_phrases:
+                    phrases.append(phrase)
+            return phrases
+        except:
+            return []
 
 
 

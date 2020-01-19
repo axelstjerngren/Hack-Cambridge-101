@@ -19,9 +19,13 @@ from django.shortcuts import render
 from findwords import FindRelatedWords
 from findarticles import FindArticles
 from articles import ArticleAnalysis
-
+import threading
 import random
 import re
+
+import time
+from pytrends.request import TrendReq
+
 
 from collections import Counter
 from nltk.corpus import stopwords
@@ -34,29 +38,81 @@ def index(request):
 def dashboard(request, search_term = None):
 
     if search_term != None:
-        words = FindRelatedWords(search_term).words[0:10]
+        
+        start = time.time()
+        words = FindRelatedWords(search_term).words[0:4]
+        end = time.time()
+        print(end-start)
+        words = [search_term]
+        start = time.time()
         urls = FindArticles(words).urls
-        urls = random.sample(urls, len(urls)//2)
+        end = time.time()
+        print(end-start)
+
+        start = time.time()
+        #urls = random.sample(urls, 20)
+        end = time.time()
+        print(end-start)
 
         analysis = ArticleAnalysis()
         text = ''
-        for url in urls:
-            text += analysis.parseArticle(url)
-            
 
+        start = time.time()
+        topic_sentiment = []
+        titles = []
+        people = {}
+        for url in urls:
+            article, title = analysis.parseArticle(url)
+            text += article 
+            topic_sentiment.append(analysis.sentiment_score(article))
+
+            for k,v in analysis.entity_recognition(article).items():
+                if v['type'] == 'Person':
+                    if k not in people:
+                        people[k] = 1
+                    else:
+                        people[k] = people[k] + 1
+
+            titles.append((title, url))
+        print(topic_sentiment)
+        end = time.time()
+        print(end-start)
+
+        start = time.time()
         stoplist = stopwords.words('english')
         stoplist.extend(["said", "The"]) # stoplist already includes "i", "it", "you"
         clean = [word for word in re.split(r"\W+", text.lower()) if word not in stoplist]
         top_10 = Counter(clean).most_common(15)
         print(top_10)
+        end = time.time()
+        print(end-start)
 
         print('Done')
-        #analysis.sentiment_score(article)
-        #analysis.entity_recognition(article)
-        key_words = analysis.key_phrases(text)
-        print(Counter(key_words).most_common(15))
+        
+        
 
-    return render(request, 'dashboard.html')
+
+        key_phrases = analysis.key_phrases(text)
+        key_phrases = [key for key, _ in Counter(key_phrases).most_common(10)]
+
+        #pytrends = TrendReq(hl='en-US', tz=360)
+        #kw_list = [key_phrases]
+        #pytrends.build_payload(kw_list, cat=0, timeframe='today 5-y', geo='', gprop='')
+
+    people = sorted(people, key=people.get, reverse=True)[0:5]
+    print(people)
+    print(key_phrases)
+    print(top_10)
+    if len(titles) > 5:
+        titles = random.sample(titles, 5)
+    print(titles)
+    return render(request, 'dashboard.html', 
+        {"average_sentiment" : sum(topic_sentiment)/len(topic_sentiment),
+        "wordcloud" : top_10,
+        "titles" : titles,
+        'people' : people
+        }
+    )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
