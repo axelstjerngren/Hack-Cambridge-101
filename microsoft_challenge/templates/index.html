@@ -20,31 +20,43 @@
 
   <!-- Custom styles for this template -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/landing-page.css' %}">
+  <script src="https://kit.fontawesome.com/da2e6121ac.js" crossorigin="anonymous"></script>
 
 </head>
 
 <body>
+    <p style = "float:left; margin-left: 1rem; margin-top: 1rem; color: azure; font-size: 20px;"> <i  class="fas fa-microscope fa-1x"></i> Gorgias </p>
   <section class="picture">
   <!-- Navigation 
   <nav class="navbar static-top">
     <div class="container">
       <a class="navbar-brand" href="#">Gorgias</a>
     </div>
-  </nav> -->
+</nav> -->
 
   <!-- Masthead -->
   <header class="masthead text-white text-center">
     <div class="overlay"></div>
     <div class="container">
-      <div class="row">
-        <div class="col-xl-9 mx-auto">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
           <h1 class="mb-5">See what people are saying about your career.</h1>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
           <form>
             <div class="form-row">
               <div class="col-12 col-md-12 mb-12 mb-md-0">
-                <input class="form-control form-control-lg" placeholder="Try your research field, institution, or name">
+
+                <input onkeydown="search(this)" class="form-control form-control-lg" placeholder="Try your research field, institution, or name">
               </div>
             </div>
           </form>
@@ -53,93 +65,28 @@
     </div>
   </header>
   </section>
-  <!-- Icons Grid 
-  <section class="features-icons bg-light text-center">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-            <div class="features-icons-icon d-flex">
-              <i class="icon-screen-desktop m-auto text-primary"></i>
-            </div>
-            <h3>Fully Responsive</h3>
-            <p class="lead mb-0">This theme will look great on any device, no matter the size!</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-            <div class="features-icons-icon d-flex">
-              <i class="icon-layers m-auto text-primary"></i>
-            </div>
-            <h3>Bootstrap 4 Ready</h3>
-            <p class="lead mb-0">Featuring the latest build of the new Bootstrap 4 framework!</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-            <div class="features-icons-icon d-flex">
-              <i class="icon-check m-auto text-primary"></i>
-            </div>
-            <h3>Easy to Use</h3>
-            <p class="lead mb-0">Ready to use with your own content, or customize the source files!</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
 
-  <!-- Footer
-  <footer class="footer bg-white">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-          <ul class="list-inline mb-2">
-            <li class="list-inline-item">
-              <a href="#">About</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Contact</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Terms of Use</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Privacy Policy</a>
-            </li>
-          </ul>
-          <p class="text-muted small mb-4 mb-lg-0">&copy; Base85 Overflow 2019. All Rights Reserved.</p>
-        </div>
-        <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
-          <ul class="list-inline mb-0">
-            <li class="list-inline-item mr-3">
-              <a href="#">
-                <i class="fab fa-facebook fa-2x fa-fw"></i>
-              </a>
-            </li>
-            <li class="list-inline-item mr-3">
-              <a href="#">
-                <i class="fab fa-twitter-square fa-2x fa-fw"></i>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#">
-                <i class="fab fa-instagram fa-2x fa-fw"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>-->
 
   <!-- Bootstrap core JavaScript -->
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+  <script>
+      $(function() {
+ $("input").keydown(function(event) {
+    if (event.keyCode == 13) {
+        event.preventDefault();
+    }
+ });
+});
+    function search(ele) {
+        console.log('http://localhost:8000/dashboard/' + ele.value)
+        if(event.key === 'Enter') {
+            url = 'http://localhost:8000/dashboard/' + ele.value 
+            window.location = url
+    }
+    }
+  </script>
 </body>
 
 </html>

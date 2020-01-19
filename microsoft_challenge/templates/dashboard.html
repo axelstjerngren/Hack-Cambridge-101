@@ -154,60 +154,9 @@ position: sticky; top:-1.5em;
         </div>
           <div class="col sophiaGraphBorders"style="max-height:24em">
 <div class="sophiaGraphTitle"><center>How People Feel</center></div>
-            <div class="table-responsive">
-              <table class="table table-striped table-sm">
-                <thead style="text-transform:uppercase;">
-                  <tr>
-                    <th>Paper</th>
-                    <th>Positive</th>
-                    <th>Negative</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Paper A</td>
-                    <td>2</td>
-                    <td>5</td>
-                  </tr>
-                  <tr>
-                    <td>Paper B</td>
-                    <td>30</td>
-                    <td>15</td>
-                  </tr>
-                  <tr>
-                    <td>Paper C</td>
-                    <td>400</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>Paper D</td>
-                    <td>3</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>Paper D</td>
-                    <td>3</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>Paper D</td>
-                    <td>3</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>Paper D</td>
-                    <td>3</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                      <td>Paper D</td>
-                      <td>3</td>
-                      <td>1</td>
-                    </tr>
+    <canvas class="my-4" id="sentimentScatter" width="800" height="300"></canvas>
+    <p>Average sentiment: {{average_sentiment}}</p>
 
-                </tbody>
-              </table>
-            </div>
           </div>
 </div>
 <div class="row">
@@ -218,52 +167,20 @@ position: sticky; top:-1.5em;
   <table class="table table-striped table-sm">
     <thead style="text-transform:uppercase;">
       <tr>
-        <th>Paper</th>
         <th>Headline</th>
         <th>Source</th>
+        <th>Author</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Paper A</td>
-        <td>"Paper A Exists!"</td>
-        <td>BBC</td>
-      </tr>
-      <tr>
-        <td>Paper B</td>
-        <td>"Paper B Exists!"</td>
-        <td>CNN</td>
-      </tr>
-      <tr>
-        <td>Paper C</td>
-        <td>"Paper C Exists!"</td>
-        <td>Underwater Basketweaving Today</td>
-      </tr>
-      <tr>
-        <td>Paper D</td>
-        <td>"Paper D Exists!"</td>
-        <td>NY Times</td>
-      </tr>
-      <tr>
-        <td>Paper D</td>
-        <td>"Paper D Exists!"</td>
-        <td>NY Times</td>
-      </tr>
-      <tr>
-        <td>Paper D</td>
-        <td>"Paper D Exists!"</td>
-        <td>NY Times</td>
-      </tr>
-      <tr>
-        <td>Paper D</td>
-        <td>"Paper D Exists!"</td>
-        <td>NY Times</td>
-      </tr>
-      <tr>
-        <td>Paper D</td>
-        <td>"Paper D Exists!"</td>
-        <td>NY Times</td>
-      </tr>
+        {% for title in titles %}
+        <tr>
+            <td> {{ title.0 }}</td>
+            <td><a href ={{title.1}}>Link</a></td>
+            <td>{{title.2.0}}</td>
+        </tr>
+        {% endfor %}
+
     </tbody>
   </table>
 </div>
@@ -275,46 +192,14 @@ position: sticky; top:-1.5em;
     <thead style="text-transform:uppercase;">
       <tr>
         <th>Person</th>
-        <th>Paper</th>
-        <th>Source</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Person 1</td>
-        <td>Paper A</td>
-        <td>BBC</td>
-      </tr>
-      <tr>
-        <td>Person 2</td>
-        <td>Paper B</td>
-        <td>CNN</td>
-      </tr>
-      <tr>
-        <td>Person 3</td>
-        <td>Paper C</td>
-        <td>Underwater Basketweaving Today</td>
-      </tr>
-      <tr>
-        <td>Person 4</td>
-        <td>Paper D</td>
-        <td>NY Times</td>
-      </tr>
-      <tr>
-        <td>Person 4</td>
-        <td>Paper D</td>
-        <td>NY Times</td>
-      </tr>
-      <tr>
-        <td>Person 4</td>
-        <td>Paper D</td>
-        <td>NY Times</td>
-      </tr>
-      <tr>
-        <td>Person 4</td>
-        <td>Paper D</td>
-        <td>NY Times</td>
-      </tr>
+        {% for person in people %}
+            <tr>
+                <td>{{person}}</td>
+            </tr>
+        {% endfor %}
     </tbody>
   </table>
 </div>
@@ -338,13 +223,7 @@ position: sticky; top:-1.5em;
       </div>
     </div>
     <textarea width="100%" style="display:none">
-      Maui Mayor Michael Victorino proclaimed today, Jan. 17, 2020, “Kurt Suzuki Day” throughout the County of Maui.  The proclamation was issued during a morning press conference at the Kalana O Maui building in Wailuku.
-
-In making the proclamation, Mayor Victorino thanked Suzuki for “not only making the state proud on the biggest stage, but also giving back to our local Maui community.”
-
-Suzuki is a 2001 graduate of HP Baldwin High School on Maui.
-
-The proclamation notes that he was a walk-on at Cal State Fullerton, and captured the 2004 College World Series Championship after his game winning RBI single against the Texas Longhorns, earning him the nickname “Kurt the Clutch.” He also won the Johnny Bench Award as the country’s top collegiate catcher.
+     {{wordcloud}}
 </textarea>
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -363,6 +242,11 @@ The proclamation notes that he was a walk-on at Cal State Fullerton, and capture
     <!-- Graphs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script>
+
+
+      var dates = {{time_series|safe}};
+
+
     $("#sophiaSidebar").hide();
     $("#showSidebar").click(function(){
       $("#sophiaSidebar").show();
@@ -378,6 +262,7 @@ The proclamation notes that he was a walk-on at Cal State Fullerton, and capture
     });
     </script>
     <script>
+
       var ctx = document.getElementById("keyWordsOverTime");
       var keyWordsOverTime = new Chart(ctx, {
         type: 'line',
@@ -409,6 +294,44 @@ The proclamation notes that he was a walk-on at Cal State Fullerton, and capture
           }
         }
       });
+
+      var sentiment_data = [];
+      var sentiment = {{sentiment|safe}}; 
+      for (sent in sentiment) {
+          sentiment_data.push({ x: sentiment[sent] , y:0})
+      };
+      var ctx = document.getElementById("sentimentScatter");
+      var scatterChart = new Chart(ctx, {
+    type: 'scatter',
+    data: {
+        datasets: [{
+            label: 'Sentiment',
+            data: sentiment_data,
+            borderColor: '#78CBF7',
+            borderWidth: 4,
+            pointBackgroundColor: '#78CBF7'
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 0
+                }
+            }],
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom',
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 1
+                }
+            }]
+        
+        }
+    }
+});
     </script>
 
     <script>

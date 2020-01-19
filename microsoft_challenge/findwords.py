@@ -10,10 +10,10 @@ class FindRelatedWords:
         
         self.words = []
         for link in links:
-            self.words.append(link)
-        
+            self.words.append(link.text)
+        print(self.words)
 
 
 
 if __name__ == '__main__':
-    FindRelatedWords('climate change')
+    FindRelatedWords('new word change')
