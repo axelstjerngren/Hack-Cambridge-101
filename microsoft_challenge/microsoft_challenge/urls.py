@@ -22,6 +22,7 @@ from articles import ArticleAnalysis
 import threading
 import random
 import re
+import json
 
 import time
 from pytrends.request import TrendReq
@@ -91,7 +92,7 @@ def dashboard(request, search_term = None):
         stoplist = stopwords.words('english')
         stoplist.extend(["said", "The"]) # stoplist already includes "i", "it", "you"
         clean = [word for word in re.split(r"\W+", text.lower()) if word not in stoplist]
-        top_10 = Counter(clean).most_common(15)
+        top_10 = Counter(clean).most_common(150)
         print(top_10)
         end = time.time()
         print(end-start)
@@ -102,30 +103,52 @@ def dashboard(request, search_term = None):
 
 
         key_phrases = analysis.key_phrases(text)
-        key_phrases = [key for key, _ in Counter(key_phrases).most_common(10)]
+        key_phrases = [key for key, _ in Counter(key_phrases).most_common(4)]
 
-        #pytrends = TrendReq(hl='en-US', tz=360)
-        #kw_list = [key_phrases]
-        #pytrends.build_payload(kw_list, cat=0, timeframe='today 5-y', geo='', gprop='')
+        pytrends = TrendReq(hl='en-US', tz=360)
+        kw_list = [key_phrases]
+        pytrends.build_payload(kw_list, cat=0, timeframe='today 12-m', geo='', gprop='')
+        trends = pytrends.interest_over_time()
+        trends.drop(['isPartial'], inplace = True)
 
-    people = sorted(people, key=people.get, reverse=True)[0:5]
-    print(people)
-    print(key_phrases)
-    print(top_10)
-    if len(titles) > 5:
-        titles = random.sample(titles, 5)
-    print(titles)
+        people = sorted(people, key=people.get, reverse=True)[0:5]
+ 
+        if len(titles) > 5:
+            titles = random.sample(titles, 5)
+        print(titles)
+        return render(request, 'dashboard.html', 
+            {
+            "sentiment" : json.dumps(topic_sentiment),
+            "average_sentiment" : sum(topic_sentiment)/len(topic_sentiment),
+            "wordcloud" : top_10,
+            "titles" : titles,
+            'people' : people,
+            'locations' : locations
+            }
+        )
+
+
+    pytrends = TrendReq(hl='en-US', tz=360)
+    kw_list = ['test', 'word', 'whoops']
+    pytrends.build_payload(kw_list, cat=0, timeframe='today 12-m', geo='', gprop='')
+    trends = pytrends.interest_over_time()
+
+
     return render(request, 'dashboard.html', 
-        {"average_sentiment" : sum(topic_sentiment)/len(topic_sentiment),
-        "wordcloud" : top_10,
-        "titles" : titles,
-        'people' : people,
-        'locations' : locations
-        }
-    )
+            {
+            "time_series" : trends.to_json(),
+            "sentiment" : json.dumps([0.5,0.2,0.4,0.8]),
+            "average_sentiment" : 0.5,
+            "wordcloud" : ['abc'],
+            "titles" : ['abc'],
+            'people' : ['people'],
+            'locations' : ['lol'],
+            }
+        )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/<str:search_term>', dashboard),
+    path('dashboard/', dashboard),
     re_path(r'^$', index, name='index'),
 ]
