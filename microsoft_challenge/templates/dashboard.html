@@ -1,59 +1,250 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
-  <title>Dashboard</title>
-  <style>
-    body{
-      margin:0;
-      padding:0;
-      font-size: 1vw;
-      font-family: 'Quicksand', sans-serif;
-    }
-    #dash-nav{
-      background-color:#094D28;
-      padding-left: 0.5em;
-      padding-right: 0.5em;
-      color:white;
-      font-size:1em;
-      text-transform: uppercase;
-      max-width: 100%;
-    }
-    #nav-title{display:inline-block; position:relative;left:0; padding:0.5em;}
-    #nav-links{display:inline-block; position:relative;right:25%;left:25%;}
-    #nav-profile{display:inline-block;position:relative;float:right;}
-    .navlink{
-      text-decoration:none;
-      color:white;
-      display:inline-block;
-      padding:0.5em;
-    }
-  </style>
-</head>
-<body>
-  <nav id = "dash-nav">
-    <div id = "nav-title">
-    Scientific Discourse
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <style>
+    body {
+  font-size: .875rem;
+  font-family: 'Quicksand', sans-serif;
+  max-width:100%;
+  background-color: #D5E9ED ;
+}
+
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .form-control {
+  padding: .75rem 1rem;
+  border-width: 0;
+  border-radius: 0;
+}
+
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+/*
+ * Utilities
+ */
+
+.border-top { border-top: 1px solid #e5e5e5; }
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+
+.sophiaGraphBorders{
+  border:solid #0A53A0 medium; padding:1rem; border-radius:1rem; border-top-left-radius:0rem;border-top-right-radius:0rem; margin:0.5em;
+}
+.sophiaGraphTitle{
+  background-color:#0A53A0;color:white;padding:0.25rem;margin:-1rem;margin-bottom:1rem;text-transform:uppercase;
+}
+.sophiaNavLink{
+  padding:0.5em;
+}
+.sophiaNavLink:hover{
+  background-color: #78CBF7;
+  text-decoration:none;
+}
+</style>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0" style="background-color:#0A53A0;text-transform: uppercase;margin:0">
+      <div class="col-3"><a class="sophiaNavLink" style="color:white;font-size:1.5em;padding:0em" href="#">Scientific Discourse</a></div>
+    <div class="col"> <a class="sophiaNavLink" style="color:white" href="#">Dashboard</a></div>
+      <div class="col"><a class="sophiaNavLink" style="color:white" href="#">Papers</a></div>
+      <div class="col"><a class="sophiaNavLink" style="color:white" href="#">Buzzwords</a></div>
+      <div class="col"><a class="sophiaNavLink" style="color:white" href="#">Posts</a></div>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="#">Username</a>
+        </li>
+      </ul>
+    </nav>
+    <div style="background-color:white;z-index:-1;position:absolute;margin-left:1%;margin-right:1%;min-height:100%;width:98%;">
+
+    <div class="container-fluid">
+
+        <main role="main" style="margin:2rem;margin-top:1rem">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom" style="color:#0A53A0;">
+            <h1 class="h2" style="text-transform:uppercase;font-size:2em">Dashboard</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <button class="btn btn-sm btn-outline-secondary">Share</button>
+                <button class="btn btn-sm btn-outline-secondary">Export</button>
+              </div>
+              <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                <span data-feather="calendar"></span>
+                This week
+              </button>
+            </div>
+          </div>
+<div class="row">
+  <div class="col sophiaGraphBorders">
+    <div class="sophiaGraphTitle"><center>Key Words Over Time</center></div>
+          <canvas class="my-4" id="keyWordsOverTime" width="800" height="300"></canvas>
+        </div>
+          <div class="col sophiaGraphBorders">
+<div class="sophiaGraphTitle"><center>How People Feel</center></div>
+            <div class="table-responsive">
+              <table class="table table-striped table-sm">
+                <thead style="text-transform:uppercase;">
+                  <tr>
+                    <th>Paper</th>
+                    <th>Positive</th>
+                    <th>Negative</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Paper A</td>
+                    <td>2</td>
+                    <td>5</td>
+                  </tr>
+                  <tr>
+                    <td>Paper B</td>
+                    <td>30</td>
+                    <td>15</td>
+                  </tr>
+                  <tr>
+                    <td>Paper C</td>
+                    <td>400</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Paper D</td>
+                    <td>3</td>
+                    <td>1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+</div>
+<div class="row">
+  <div class="col-5 sophiaGraphBorders">
+<div class="sophiaGraphTitle"><center>Headline Extracts</center></div>
+<div class="table-responsive">
+  <table class="table table-striped table-sm">
+    <thead style="text-transform:uppercase;">
+      <tr>
+        <th>Paper</th>
+        <th>Headline</th>
+        <th>Source</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Paper A</td>
+        <td>"Paper A Exists!"</td>
+        <td>BBC</td>
+      </tr>
+      <tr>
+        <td>Paper B</td>
+        <td>"Paper B Exists!"</td>
+        <td>CNN</td>
+      </tr>
+      <tr>
+        <td>Paper C</td>
+        <td>"Paper C Exists!"</td>
+        <td>Underwater Basketweaving Today</td>
+      </tr>
+      <tr>
+        <td>Paper D</td>
+        <td>"Paper D Exists!"</td>
+        <td>NY Times</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+<div class="col sophiaGraphBorders">
+<div class="sophiaGraphTitle"><center>Word Cloud</center></div>
+</div>
+        </main>
+    </div>
     </div>
 
-    <div id = "nav-links">
-      <center>
-    <a class="navlink" href="#">Dashboard</a>
-    <a class="navlink" href="#">Papers</a>
-    <a class="navlink" href="#">Buzzwords</a>
-    <a class="navlink" href="#">Posts</a>
-    </center>
-    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <div id = "nav-profile">
-      <a class="navlink" href="#">Profile</a>
-    </div>
-  </nav>
-</body>
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+
+    <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
+      var ctx = document.getElementById("keyWordsOverTime");
+      var keyWordsOverTime = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug","Sep","Oct","Nov","Dec","Jan"],
+          datasets: [{
+            label:"# of Keyword Mentions",
+            data: [12,2,13,4,15,6,17,8,9,1,1,2,3],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#78CBF7',
+            borderWidth: 4,
+            pointBackgroundColor: '#78CBF7'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: false
+              }
+            }]
+          },
+          legend: {
+            display: true,
+            labels:{
+
+            }
+          }
+        }
+      });
+    </script>
+  </body>
 </html>
