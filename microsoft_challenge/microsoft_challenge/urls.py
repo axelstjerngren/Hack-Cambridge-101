@@ -105,11 +105,14 @@ def dashboard(request, search_term = None):
         key_phrases = analysis.key_phrases(text)
         key_phrases = [key for key, _ in Counter(key_phrases).most_common(4)]
 
-        pytrends = TrendReq(hl='en-US', tz=360)
-        kw_list = [key_phrases]
-        pytrends.build_payload(kw_list, cat=0, timeframe='today 12-m', geo='', gprop='')
-        trends = pytrends.interest_over_time()
-        trends.drop(['isPartial'], inplace = True)
+        try:
+            pytrends = TrendReq(hl='en-US', tz=360)
+            kw_list = [key_phrases]
+            pytrends.build_payload(kw_list, cat=0, timeframe='today 12-m', geo='', gprop='')
+            trends = pytrends.interest_over_time()
+            trends.drop(['isPartial'], inplace = True)
+        except:
+            pass
 
         people = sorted(people, key=people.get, reverse=True)[0:5]
  
@@ -127,12 +130,13 @@ def dashboard(request, search_term = None):
             }
         )
 
-
-    pytrends = TrendReq(hl='en-US', tz=360)
-    kw_list = ['test', 'word', 'whoops']
-    pytrends.build_payload(kw_list, cat=0, timeframe='today 12-m', geo='', gprop='')
-    trends = pytrends.interest_over_time()
-
+    try:
+        pytrends = TrendReq(hl='en-US', tz=360)
+        kw_list = ['test', 'word', 'whoops']
+        pytrends.build_payload(kw_list, cat=0, timeframe='today 12-m', geo='', gprop='')
+        trends = pytrends.interest_over_time()
+    except:
+        pass
 
     return render(request, 'dashboard.html', 
             {
@@ -140,9 +144,9 @@ def dashboard(request, search_term = None):
             "sentiment" : json.dumps([0.5,0.2,0.4,0.8]),
             "average_sentiment" : 0.5,
             "wordcloud" : ['abc'],
-            "titles" : ['abc'],
+            "titles" : [('title','link','author')],
             'people' : ['people'],
-            'locations' : ['lol'],
+            'locations' : json.dumps(['Luxembourg', 'Finland', 'Conneciticut']),
             }
         )
 
