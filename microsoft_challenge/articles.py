@@ -37,11 +37,11 @@ class ArticleAnalysis:
             article = Article(url)
             article.download()
             article.parse()
-            return article.text, article.title
+            return article.text, article.title, article.authors
 
         except:
             # Some articles are behind a paywall
-            return '', ''
+            return '', '', ''
 
     def sentiment_score(self, article):
         # Calculate the sentiment score of an article

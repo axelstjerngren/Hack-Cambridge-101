@@ -39,18 +39,21 @@ def dashboard(request, search_term = None):
 
     if search_term != None:
         
-        start = time.time()
-        words = FindRelatedWords(search_term).words[0:4]
-        end = time.time()
-        print(end-start)
-        words = [search_term]
+        try:
+            start = time.time()
+            words = FindRelatedWords(search_term).words[0:4]
+            end = time.time()
+            print(end-start)
+        except:
+            words = [search_term]
         start = time.time()
         urls = FindArticles(words).urls
         end = time.time()
         print(end-start)
 
         start = time.time()
-        #urls = random.sample(urls, 20)
+        if len(urls) > 20:
+            urls = random.sample(urls, 20)
         end = time.time()
         print(end-start)
 
@@ -61,8 +64,9 @@ def dashboard(request, search_term = None):
         topic_sentiment = []
         titles = []
         people = {}
+        locations = {}
         for url in urls:
-            article, title = analysis.parseArticle(url)
+            article, title, author = analysis.parseArticle(url)
             text += article 
             topic_sentiment.append(analysis.sentiment_score(article))
 
@@ -72,8 +76,13 @@ def dashboard(request, search_term = None):
                         people[k] = 1
                     else:
                         people[k] = people[k] + 1
+                if v['type'] == 'Location':
+                    if k not in locations:
+                        locations[k] = 1
+                    else:
+                        locations[k] = locations[k] + 1
 
-            titles.append((title, url))
+            titles.append((title, url, author))
         print(topic_sentiment)
         end = time.time()
         print(end-start)
@@ -110,7 +119,8 @@ def dashboard(request, search_term = None):
         {"average_sentiment" : sum(topic_sentiment)/len(topic_sentiment),
         "wordcloud" : top_10,
         "titles" : titles,
-        'people' : people
+        'people' : people,
+        'locations' : locations
         }
     )
 
