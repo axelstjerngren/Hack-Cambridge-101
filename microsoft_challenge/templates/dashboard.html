@@ -81,6 +81,10 @@ position: sticky; top:-1.5em;
   background-color: #78CBF7;
   text-decoration:none;
 }
+#map{
+  width: 100%;
+  height:100%;
+}
 </style>
   </head>
 
@@ -121,7 +125,7 @@ position: sticky; top:-1.5em;
     <div class="sophiaGraphTitle"><center>Key Words Over Time</center></div>
           <canvas class="my-4" id="keyWordsOverTime" width="800" height="300"></canvas>
         </div>
-          <div class="col sophiaGraphBorders"style="max-height:23em">
+          <div class="col sophiaGraphBorders"style="max-height:24em">
 <div class="sophiaGraphTitle"><center>How People Feel</center></div>
             <div class="table-responsive">
               <table class="table table-striped table-sm">
@@ -173,6 +177,7 @@ position: sticky; top:-1.5em;
                       <td>3</td>
                       <td>1</td>
                     </tr>
+
                 </tbody>
               </table>
             </div>
@@ -295,9 +300,9 @@ position: sticky; top:-1.5em;
 </div>
 </div>
 <div class="row">
-<div class="col sophiaGraphBorders">
+<div class="col sophiaGraphBorders" style="height:30em;">
 <div class="sophiaGraphTitle"><center>Locations</center></div>
-
+<div id="map"></div>
 
 </div>
 </div>
@@ -450,7 +455,6 @@ return words
 function showNewWords(vis, i) {
 i = i || 0;
 var words = document.getElementsByTagName("textarea")[0].value;
-console.log(words);
 vis.update(getWords(words))
 setTimeout(function() { showNewWords(vis, i + 1)}, 4000)
 }
@@ -459,5 +463,19 @@ var myWordCloud = wordCloud(wordBox);
 showNewWords(myWordCloud);
 
 </script>
+<script>
+function initMap(){
+  var kihei = new google.maps.LatLng(20.764924, -156.444941);
+  var honolulu = new google.maps.LatLng(21.327336, -157.857450);
+  var lahaina = new google.maps.LatLng(20.883367,  -156.682807);
+  var map = new google.maps.Map(document.getElementById('map'), {zoom: 8, center: kihei});
+      var kiheiMarker = new google.maps.Marker({position: kihei, map: map});
+      var honoluluMarker = new google.maps.Marker({position: honolulu, map: map});
+      var lahainaMarker = new google.maps.Marker({position: lahaina, map: map});
+}
+google.maps.event.addDomListener(window, "load", initMap);
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA80wEVfNDR49oTo3yede1S6Nik_Lw6PyY&callback=initMap">
+    </script>
   </body>
 </html>
