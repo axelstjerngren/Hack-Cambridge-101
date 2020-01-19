@@ -10,10 +10,13 @@
     <title>Dashboard</title>
 
 <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+<link rel="icon" href="{% static 'img/favicon.ico' %}">
+<link rel="icon" href="{% static 'img/favicon.png' %}"sizes="150x150" type="image/png">
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
       <script src="{% static 'wordcloud/d3.layout.cloud.js' %}"></script>
+      <link rel="stylesheet" href="{% static 'css/foundation-icons/foundation-icons.css' %}" />
     <!-- Custom styles for this template -->
     <style>
     body {
@@ -69,10 +72,19 @@
   border:solid #0A53A0 medium; padding:1rem; border-radius:1rem; border-top-left-radius:0rem;border-top-right-radius:0rem; margin:0.5em;
 overflow-y: scroll;
 }
+
 .sophiaGraphTitle{
   background-color:#0A53A0;color:white;padding:0.25rem;margin:-1rem;margin-bottom:1rem;text-transform:uppercase;
 position: sticky; top:-1.5em;
 
+}
+.sophiaGraphBorders:hover{
+  border-color: #277BD3;
+  transition:0.5s;
+}
+.sophiaGraphTitle:hover{
+  background-color: #277BD3;
+  transition:0.5s;
 }
 .sophiaNavLink{
   padding:0.5em;
@@ -101,14 +113,14 @@ position: sticky; top:-1.5em;
   <body>
 
     <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0" style="background-color:#0A53A0;text-transform: uppercase;margin:0">
-      <div class="col-3"><a class="sophiaNavLink" id="showSidebar" style="color:white;font-size:1.5em;padding:0em" href="#">Scientific Discourse</a></div>
-    <div class="col"> <a class="sophiaNavLink" style="color:white" href="#">Dashboard</a></div>
-      <div class="col"><a class="sophiaNavLink" style="color:white" href="#">My Papers</a></div>
-      <div class="col"><a class="sophiaNavLink" style="color:white" href="#">Buzzwords</a></div>
-      <div class="col"><a class="sophiaNavLink" style="color:white" href="#">Posts</a></div>
+      <div class="col-3"><a class="sophiaNavLink" id="showSidebar" style="color:white;font-size:1.5em;padding:0.1em" href="#"><i class="fi-comment-quotes" style="font-size:1.1em;"></i> Scientific Discourse</a></div>
+    <div class="col"> <a class="sophiaNavLink" style="color:white" href="#"><i class="fi-home" style="font-size:1.1em;"></i> Dashboard</a></div>
+      <div class="col"><a class="sophiaNavLink" style="color:white" href="#"><i class="fi-page-copy" style="font-size:1.1em;"></i> My Papers</a></div>
+      <div class="col"><a class="sophiaNavLink" style="color:white" href="#"><i class="fi-star" style="font-size:1.1em;"></i> Buzzwords</a></div>
+      <div class="col"><a class="sophiaNavLink" style="color:white" href="#"><i class="fi-pencil" style="font-size:1.1em;"></i> Posts</a></div>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="..\">Sign Out</a>
+          <a class="nav-link" href="..\"><i class="fi-torso"style="font-size:1.1em;"></i> Sign Out</a>
         </li>
       </ul>
     </nav>
@@ -118,7 +130,7 @@ position: sticky; top:-1.5em;
       <div class="row" style="margin:0rem;padding:0rem;">
         <div id="sophiaSidebar" style="margin:0rem;margin-left:-2rem; padding:1rem;background-color:#277BD3 ;z-index:2; width:100%; transition:0.5s;">
           <a id="close-sophiaSidebar">CLOSE</a>
-          <div id="notificationMessage" style="margin:2em;margin-top:3em;"><center><img id="cuteGif" style="width:75%"><p style="color:white;font-size:1.5em;">You're all caught up!</p></center></div>
+          <div id="notificationMessage" style="margin:3em;"><center><p style="color:white;font-size:2em;text-transform:uppercase;">Notifications</p><img id="cuteGif" style="width:75%"><p style="color:white;font-size:1.5em;margin-top:1em;">You're all caught up!</p></center></div>
         </div>
         <div class="main_dash_content" style="margin:0rem;padding:0rem; transition:0.5s">
         <main role="main" style="margin:2rem;margin-top:1rem">
